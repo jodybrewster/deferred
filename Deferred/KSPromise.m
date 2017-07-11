@@ -189,7 +189,12 @@ NSString *const KSPromiseWhenErrorValuesKey = @"KSPromiseWhenErrorValuesKey";
     for (id<KSCancellable> cancellable in self.cancellables) {
         [cancellable cancel];
     }
-    [self.callbacks removeAllObjects];
+        
+    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber10_0) {
+    } else {
+        [self.callbacks removeAllObjects];
+    }
+
 }
 
 - (id)waitForValue {
@@ -269,7 +274,11 @@ NSString *const KSPromiseWhenErrorValuesKey = @"KSPromiseWhenErrorValuesKey";
             callbacks.deprecatedCompleteCallback(self);
         }
     }
-    [self.callbacks removeAllObjects];
+    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber10_0) {
+    } else {
+        [self.callbacks removeAllObjects];
+    }
+
     dispatch_semaphore_signal(_sem);
 }
 
